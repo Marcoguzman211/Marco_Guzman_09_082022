@@ -130,6 +130,8 @@ export default class {
     this.onNavigate(ROUTES_PATH['Dashboard'])
   }
 
+  //Bughunt dashboard
+
   handleShowTickets(e, bills, index) {
     if (this.counter === undefined || this.index !== index) this.counter = 0
     if (this.index === undefined || this.index !== index) this.index = index
@@ -146,11 +148,13 @@ export default class {
     }
 
     bills.forEach(bill => {
-      $(`#open-bill${bill.id}`).click((e) => this.handleEditTicket(e, bill, bills))
+      // Add Event listeners only if this element has no data-listener
+      if (!$(`#open-bill${bill.id}`).data('listener')) {
+        $(`#open-bill${bill.id}`).data('listener', true)
+        $(`#open-bill${bill.id}`).on('click', (e) => this.handleEditTicket(e, bill, bills))
+      }
     })
-
     return bills
-
   }
 
   getBillsAllUsers = () => {

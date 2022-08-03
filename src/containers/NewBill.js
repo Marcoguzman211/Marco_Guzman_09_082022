@@ -18,6 +18,12 @@ export default class NewBill {
   handleChangeFile = e => {
     e.preventDefault()
     const file = this.document.querySelector(`input[data-testid="file"]`).files[0]
+    console.log(file.type)
+    // Tableau avec des formats autorisés et compararer avec le fichier selectionné.
+    const authorizedFormats = ['image/jpeg', 'image/jpg', 'image/png'] // ajouté
+    const conformedFormat = authorizedFormats.includes(file.type) // ajouté
+
+    if (conformedFormat) {
     const filePath = e.target.value.split(/\\/g)
     const fileName = filePath[filePath.length-1]
     const formData = new FormData()
@@ -34,11 +40,16 @@ export default class NewBill {
         }
       })
       .then(({fileUrl, key}) => {
-        console.log(fileUrl)
+        //  console.log(fileUrl)
         this.billId = key
         this.fileUrl = fileUrl
         this.fileName = fileName
       }).catch(error => console.error(error))
+    } else {
+      console.log("Le fichier doit être de type .JPG, .JPEG ou .PNG")
+      alert("Le fichier doit être de type .JPG, .JPEG ou .PNG")
+      e.target.value = ""; //Enlève le fichier selectionné.
+    }
   }
   handleSubmit = e => {
     e.preventDefault()

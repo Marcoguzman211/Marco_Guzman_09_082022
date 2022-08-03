@@ -5,8 +5,9 @@ import LoadingPage from "./LoadingPage.js"
 import Actions from './Actions.js'
 
 const row = (bill) => {
+  //data-testid added to the table row to be able to test it
   return (`
-    <tr>
+    <tr data-testid="bill">
       <td>${bill.type}</td>
       <td>${bill.name}</td>
       <td>${bill.date}</td>
@@ -20,7 +21,9 @@ const row = (bill) => {
   }
 
 const rows = (data) => {
-  return (data && data.length) ? data.map(bill => row(bill)).join("") : ""
+  return (data && data.length) ? data
+  .sort((a,b) => (new Date(a.date) < new Date(b.date) ? 1 : -1)) //Affichage en ordre chronologique
+  .map(bill => row(bill)).join("") : ""
 }
 
 export default ({ data: bills, loading, error }) => {

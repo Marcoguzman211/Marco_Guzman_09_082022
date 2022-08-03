@@ -34,6 +34,7 @@ export default class {
       .list()
       .then(snapshot => {
         const bills = snapshot
+          .sort((a, b) => new Date(a.date) - new Date(b.date)) // Réparation bug, ça permet de trier par ordre décroissant
           .map(doc => {
             try {
               return {
@@ -43,7 +44,7 @@ export default class {
               }
             } catch(e) {
               // if for some reason, corrupted data was introduced, we manage here failing formatDate function
-              // log the error and return unformatted date in that case
+              // log the error and return not-formatted date in that case
               console.log(e,'for',doc)
               return {
                 ...doc,
