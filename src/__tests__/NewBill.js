@@ -39,7 +39,7 @@
        const html = NewBillUI({})
        document.body.innerHTML = html
        const contentTitle = screen.getAllByText('Envoyer une note de frais')
-       expect(contentTitle).toBeTruthy
+       expect(contentTitle).toBeTruthy()
      })
    })
  })
